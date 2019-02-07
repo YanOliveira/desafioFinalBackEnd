@@ -38,5 +38,13 @@
   },
   "autoload": {
     "App": "./app"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YanOliveira/desafioFinalBackEnd.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YanOliveira/desafioFinalBackEnd/issues"
+  },
+  "homepage": "https://github.com/YanOliveira/desafioFinalBackEnd#readme"
 }
