@@ -1,6 +1,6 @@
 "use strict";
 
-class User extends require("./Validator") {
+class UserStore extends require("../Validator") {
   get rules() {
     return {
       name: "required",
@@ -10,4 +10,4 @@ class User extends require("./Validator") {
   }
 }
 
-module.exports = User;
+module.exports = UserStore;
