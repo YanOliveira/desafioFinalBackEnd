@@ -21,9 +21,9 @@ class UserController {
         .where('user_id', auth.user.id)
         .delete()
       let technologies = []
-      data.technologies.map(technology => {
+      data.technologies.map(item => {
         technologies.push({
-          technology_id: parseInt(technology),
+          technology_id: parseInt(item.technology_id),
           user_id: parseInt(auth.user.id)
         })
       })
