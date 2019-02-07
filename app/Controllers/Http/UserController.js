@@ -2,6 +2,7 @@
 
 const User = use("App/Models/User");
 const Hash = use("Hash");
+const Exception = use("App/Exceptions/Exception");
 
 class UserController {
   async store({ request }) {
@@ -12,11 +13,10 @@ class UserController {
 
   async update({ params, request, response, auth, error }) {
     if (auth.user.id != params.id) {
-      return response.status(401).send({
-        error: {
-          message: "Você não tem permissão para alterar este usuário! :("
-        }
-      });
+      throw new Exception(
+        "Você não tem permissão para alterar este usuário!",
+        401
+      );
     }
 
     const user = await User.findByOrFail("id", params.id);
@@ -25,21 +25,14 @@ class UserController {
     if (!!data.old_password) {
       const passIsSame = await Hash.verify(data.old_password, user.password);
       if (!passIsSame) {
-        return response.status(400).send({
-          error: {
-            message: "A senha antiga está incorreta! :("
-          }
-        });
+        throw new Exception("A senha antiga está incorreta!", 400);
       }
       if (!data.new_password) {
-        return response.status(400).send({
-          error: {
-            message: "Digite a nova senha e a confirmação!"
-          }
-        });
+        throw new Exception("Digite a nova senha e a confirmação!", 400);
       }
       user.password = data.new_password;
     }
+
     user.name = data.name;
     await user.save();
     return user;
