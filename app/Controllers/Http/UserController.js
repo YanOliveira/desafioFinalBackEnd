@@ -12,13 +12,6 @@ class UserController {
   }
 
   async update({ params, request, response, auth, error }) {
-    if (auth.user.id != params.id) {
-      throw new Exception(
-        "Você não tem permissão para alterar este usuário!",
-        401
-      );
-    }
-
     const user = await User.findByOrFail("id", params.id);
     const data = request.all();
 
