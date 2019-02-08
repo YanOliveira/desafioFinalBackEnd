@@ -5,27 +5,25 @@ const Schema = use('Schema')
 
 class UserTechnologySchema extends Schema {
   up () {
-    this.create('user_technologies', table => {
+    this.create('technology_user', table => {
       table.increments()
       table
         .integer('user_id')
         .unsigned()
-        .references('id')
-        .inTable('users')
-        .notNullable()
+        .references('users.id')
+        .onDelete('cascade')
+        .index('users_id')
       table
         .integer('technology_id')
         .unsigned()
-        .references('id')
-        .inTable('technologies')
-        .notNullable()
-
-      table.timestamps()
+        .references('technologies.id')
+        .onDelete('cascade')
+        .index('technology_id')
     })
   }
 
   down () {
-    this.drop('user_technologies')
+    this.drop('technology_user')
   }
 }
 

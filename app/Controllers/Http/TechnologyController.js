@@ -1,24 +1,24 @@
-"use strict";
+'use strict'
 
-const Technology = use("App/Models/Technology");
+const Technology = use('App/Models/Technology')
 
 class TechnologyController {
-  async index({ request }) {
-    const technologies = await Technology.query().fetch();
-    return technologies;
+  async index ({ request }) {
+    const technologies = await Technology.query().fetch()
+    return technologies
   }
 
-  async store({ request, response }) {
-    const name = request.only("name");
-    const technology = await Technology.create(name);
-    return name;
+  async store ({ request, response }) {
+    const name = request.only('name')
+    const technology = await Technology.create(name)
+    return technology
   }
 
-  async show({ params, request, response }) {}
+  async show ({ params, request, response }) {}
 
-  async update({ params, request, response }) {}
+  async update ({ params, request, response }) {}
 
-  async destroy({ params, request, response }) {}
+  async destroy ({ params, request, response }) {}
 }
 
-module.exports = TechnologyController;
+module.exports = TechnologyController

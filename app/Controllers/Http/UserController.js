@@ -1,7 +1,6 @@
 'use strict'
 
 const User = use('App/Models/User')
-const UserTechnology = use('App/Models/UserTechnology')
 const Hash = use('Hash')
 const Exception = use('App/Exceptions/Exception')
 
@@ -14,20 +13,15 @@ class UserController {
 
   async update ({ params, request, response, auth, error }) {
     const user = await User.findByOrFail('id', params.id)
-    const data = request.all()
-
-    if (data.technologies) {
-      await UserTechnology.query()
-        .where('user_id', auth.user.id)
-        .delete()
-      let technologies = []
-      data.technologies.map(item => {
-        technologies.push({
-          technology_id: parseInt(item.technology_id),
-          user_id: parseInt(auth.user.id)
-        })
-      })
-      await UserTechnology.createMany(technologies)
+    const { technologies, ...data } = request.only([
+      'name',
+      'old_password',
+      'new_password',
+      'technologies'
+    ])
+    if (technologies && technologies.length > 0) {
+      await user.technologies().sync(technologies)
+      await user.load('technologies')
     }
 
     if (data.old_password) {
