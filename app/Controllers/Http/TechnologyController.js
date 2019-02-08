@@ -13,12 +13,6 @@ class TechnologyController {
     const technology = await Technology.create(name)
     return technology
   }
-
-  async show ({ params, request, response }) {}
-
-  async update ({ params, request, response }) {}
-
-  async destroy ({ params, request, response }) {}
 }
 
 module.exports = TechnologyController

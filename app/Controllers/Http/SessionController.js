@@ -12,7 +12,7 @@ class SessionController {
   }
 
   async show ({ request }) {
-    const { email } = request.all()
+    const email = request.input('email')
     const user = await User.findByOrFail('email', email)
     const userToken = await user.tokens().fetch()
     return userToken
