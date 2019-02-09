@@ -34,9 +34,11 @@ class User extends Model {
   tokens () {
     return this.hasMany('App/Models/Token')
   }
-
   technologies () {
     return this.belongsToMany('App/Models/Technology')
+  }
+  meetups () {
+    return this.belongsToMany('App/Models/Meetup')
   }
 }
 

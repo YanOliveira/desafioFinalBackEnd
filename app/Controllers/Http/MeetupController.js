@@ -1,9 +1,26 @@
 'use strict'
 
 const Meetup = use('App/Models/Meetup')
+const Database = use('Database')
 
 class MeetupController {
-  async index ({ request, response, view }) {}
+  async index ({ params, request, response, auth }) {
+    const technologiesUser = Database.select('meetup_id')
+      .from('technology_user')
+      .where('user_id', auth.user.id)
+      .innerJoin(
+        'meetup_technology',
+        'technology_user.technology_id',
+        'meetup_technology.technology_id'
+      )
+
+    const meetups = await Meetup.query()
+      .whereIn('id', technologiesUser)
+      .with('technologies')
+      .fetch()
+
+    return meetups
+  }
 
   async store ({ request }) {
     const { technologies, ...data } = request.only([
@@ -22,10 +39,6 @@ class MeetupController {
   }
 
   async show ({ params, request, response, view }) {}
-
-  async update ({ params, request, response }) {}
-
-  async destroy ({ params, request, response }) {}
 }
 
 module.exports = MeetupController

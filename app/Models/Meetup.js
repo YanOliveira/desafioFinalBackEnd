@@ -10,6 +10,9 @@ class Meetup extends Model {
   file () {
     return this.belongsTo('App/Models/File')
   }
+  users () {
+    return this.belongsToMany('App/Models/User')
+  }
 }
 
 module.exports = Meetup
