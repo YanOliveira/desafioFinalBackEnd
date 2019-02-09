@@ -6,7 +6,8 @@ class MeetupStore extends require('../Validator') {
       title: 'required',
       description: 'required',
       localization: 'required',
-      technologies: 'required'
+      technologies: 'required',
+      file_id: 'required|unique:meetups'
     }
   }
 }

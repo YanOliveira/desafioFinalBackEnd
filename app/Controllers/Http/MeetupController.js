@@ -10,7 +10,8 @@ class MeetupController {
       'title',
       'description',
       'localization',
-      'technologies'
+      'technologies',
+      'file_id'
     ])
 
     const meetup = await Meetup.create(data)
