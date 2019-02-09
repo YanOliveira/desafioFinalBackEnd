@@ -3,16 +3,16 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class UserTechnologySchema extends Schema {
+class MeetupTechnologySchema extends Schema {
   up () {
-    this.create('technology_user', table => {
+    this.create('meetup_technology', table => {
       table.increments()
       table
-        .integer('user_id')
+        .integer('meetup_id')
         .unsigned()
-        .references('users.id')
+        .references('meetups.id')
         .onDelete('cascade')
-        .index('user_id')
+        .index('meetup_id')
       table
         .integer('technology_id')
         .unsigned()
@@ -23,8 +23,8 @@ class UserTechnologySchema extends Schema {
   }
 
   down () {
-    this.drop('technology_user')
+    this.drop('meetup_technology')
   }
 }
 
-module.exports = UserTechnologySchema
+module.exports = MeetupTechnologySchema

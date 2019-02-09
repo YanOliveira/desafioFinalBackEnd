@@ -14,4 +14,6 @@ Route.post('technologies', 'TechnologyController.store').validator(
 )
 Route.post('files', 'FileController.store')
 Route.get('/files/:id', 'FileController.show')
+
+Route.post('/meetups', 'MeetupController.store').validator('Meetup/Store')
 // }).middleware(['auth'])
