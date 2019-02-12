@@ -5,8 +5,18 @@ const Database = use("Database");
 
 class SubscriptionController {
   async index({ request, params, auth }) {
+    const meetupsTechUser = Database.select("meetup_id")
+      .from("technology_user")
+      .where("user_id", auth.user.id)
+      .innerJoin(
+        "meetup_technology",
+        "technology_user.technology_id",
+        "meetup_technology.technology_id"
+      );
+
     const meetupsUser = Database.select("meetup_id")
       .from("meetup_user")
+      .whereIn("meetup_id", meetupsTechUser)
       .where("user_id", auth.user.id);
 
     const { registered } = request.get();
