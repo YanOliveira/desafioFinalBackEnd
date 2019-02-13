@@ -38,7 +38,12 @@ class MeetupController {
     return meetup
   }
 
-  async show ({ params, request, response, view }) {}
+  async show ({ params }) {
+    const meetup = await Meetup.findOrFail(params.id)
+    await meetup.load('technologies')
+    await meetup.load('users')
+    return meetup
+  }
 }
 
 module.exports = MeetupController
