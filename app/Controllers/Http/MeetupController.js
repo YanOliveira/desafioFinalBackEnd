@@ -4,7 +4,7 @@ const Meetup = use("App/Models/Meetup");
 const Database = use("Database");
 
 class MeetupController {
-  async index({ params, request, response, auth }) {
+  async index({ auth }) {
     const technologiesUser = Database.select("meetup_id")
       .from("technology_user")
       .where("user_id", auth.user.id)
