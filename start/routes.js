@@ -7,7 +7,7 @@ Route.post('sessions', 'SessionController.store').validator('Session/Store')
 Route.get('sessions', 'SessionController.show').validator('Session/Show')
 
 Route.group(() => {
-  Route.put('users/:id', 'UserController.update').validator('User/Update')
+  Route.put('users', 'UserController.update').validator('User/Update')
   Route.get('users', 'UserController.show')
 
   Route.get('technologies', 'TechnologyController.index')
