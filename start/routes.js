@@ -5,6 +5,7 @@ const Route = use('Route')
 Route.post('users', 'UserController.store').validator('User/Store')
 Route.post('sessions', 'SessionController.store').validator('Session/Store')
 Route.get('sessions', 'SessionController.show').validator('Session/Show')
+Route.get('files/:id', 'FileController.show')
 
 Route.group(() => {
   Route.put('users', 'UserController.update').validator('User/Update')
@@ -15,7 +16,6 @@ Route.group(() => {
     'Technology/Store'
   )
   Route.post('files', 'FileController.store').validator('File/Store')
-  Route.get('files/:id', 'FileController.show')
 
   Route.get('meetups', 'MeetupController.index')
   Route.get('meetups/:id', 'MeetupController.show')

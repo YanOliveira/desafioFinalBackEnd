@@ -10,32 +10,49 @@ class SubscriptionController {
         .meetups()
         .where('title', 'LIKE', search ? `%${search}%` : '%%')
         .with('technologies')
-        .paginate(page)
+        .with('users')
+        .paginate(page, 3)
       return meetupsRegistered
     } else if (registered === 'false') {
-      const { rows } = await auth.user.technologies().fetch()
-      let userTechnologies = []
-      rows.map(item => {
-        userTechnologies.push(item.id)
+      const { rows: registereds } = await auth.user
+        .meetups()
+        .select('id')
+        .fetch()
+      let registeredsIds = []
+      registereds.forEach(item => {
+        registeredsIds.push(item.id)
       })
-
       const meetupsNotRegistered = await Meetup.query()
         .where('title', 'LIKE', search ? `%${search}%` : '%%')
+        .whereNotIn('id', registeredsIds)
+        .with('technologies')
+        .with('users')
+        .paginate(page, 3)
+      return meetupsNotRegistered
+    } else {
+      const { rows } = await auth.user.technologies().fetch()
+      let userTechnologies = []
+      rows.forEach(item => {
+        userTechnologies.push(item.id)
+      })
+      const { rows: join } = await Meetup.query()
+        .select('meetup_id as id')
         .innerJoin(
           'meetup_technology',
           'meetups.id',
           'meetup_technology.meetup_id'
         )
         .whereIn('technology_id', userTechnologies)
-        .with('technologies')
-        .paginate(page)
-
-      return meetupsNotRegistered
-    } else {
+        .fetch()
+      let meetupsIds = []
+      join.forEach(item => {
+        meetupsIds.push(item.id)
+      })
       const meetups = await Meetup.query()
-        .where('title', 'LIKE', search ? `%${search}%` : '%%')
+        .whereIn('id', meetupsIds)
         .with('technologies')
-        .paginate(page)
+        .with('users')
+        .paginate(page, 3)
       return meetups
     }
   }
