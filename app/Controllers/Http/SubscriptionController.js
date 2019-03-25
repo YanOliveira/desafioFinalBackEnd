@@ -50,6 +50,7 @@ class SubscriptionController {
       })
       const meetups = await Meetup.query()
         .whereIn('id', meetupsIds)
+        .where('title', 'LIKE', search ? `%${search}%` : '%%')
         .with('technologies')
         .with('users')
         .paginate(page, 3)
